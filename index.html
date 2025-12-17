@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Игра с числами</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .game {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 25px 30px;
+      border-radius: 15px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 6px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .start {
+      background: #00e676;
+      color: #000;
+      width: 100%;
+    }
+
+    .mul {
+      background: #ffeb3b;
+    }
+
+    .add {
+      background: #03a9f4;
+      color: #fff;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .info {
+      margin-top: 10px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="game">
+  <h2>Игра с числами</h2>
+
+  <input id="start" type="number" placeholder="Начальное число">
+  <input id="target" type="number" placeholder="Год">
+
+  <button class="start" onclick="startGame()">Начать игру</button>
+
+  <div class="info" id="status"></div>
+
+  <button class="mul" onclick="makeMove('*')">× 15</button>
+  <button class="add" onclick="makeMove('+')">+ 70</button>
+</div>
+
+<script>
+  let current;
+  let target;
+  let player;
+  let gameActive = false;
+
+  function startGame() {
+    current = Number(document.getElementById('start').value);
+    target = Number(document.getElementById('target').value);
+
+    if (current <= 0 || target <= 0) {
+      alert('Введите натуральные числа');
+      return;
+    }
+
+    player = 1;
+    gameActive = true;
+    updateStatus();
+  }
+
+  function makeMove(type) {
+    if (!gameActive) return;
+
+    if (type === '*') {
+      current *= 15;
+    } else {
+      current += 70;
+    }
+
+    if (current === target) {
+      document.getElementById('status').innerText = `Игрок ${player} ПОБЕДИЛ!`;
+      gameActive = false;
+      return;
+    }
+
+    if (current > target) {
+      document.getElementById('status').innerText = `Игрок ${player} ПРОИГРАЛ!`;
+      gameActive = false;
+      return;
+    }
+
+    player = player === 1 ? 2 : 1;
+    updateStatus();
+  }
+
+  function updateStatus() {
+    document.getElementById('status').innerText =
+      `Текущее число: ${current} | Ходит игрок ${player}`;
+  }
+</script>
+
+</body>
+</html>
